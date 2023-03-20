@@ -76,18 +76,11 @@ export default {
       this.loading = true
       let userInfo = {name:this.loginForm.account, password:this.loginForm.password, captcha:this.loginForm.captcha}
       this.$api.login.login(userInfo).then((res) => {
-          if(res.code != 200) {
-            this.$message({
-              message: res.msg,
-              type: 'error'
-            })
-          } else {
             sessionStorage.setItem('token', res.data.token) // 放置token到Cookie
             sessionStorage.setItem('user', userInfo.name) // 保存用户到本地会话
             let userName = sessionStorage.getItem('user')
             this.$store.commit('menuRouteLoaded', false) // 要求重新加载导航菜单
             this.$router.push('/')  // 登录成功，跳转到主页
-          }
           this.loading = false
         }).catch((res) => {
           this.$message({
